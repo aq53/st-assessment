@@ -1,0 +1,38 @@
+{
+  "products": [
+    { "id": 1, "name": "Lays Salted", "type": "chips" },
+    { "id": 2, "name": "Slims", "type": "chips" },
+    { "id": 3, "name": "Potatoe Sticks", "type": "chips" },
+    { "id": 4, "name": "Slanty", "type": "chips" },
+    { "id": 5, "name": "Pepsi", "type": "beverage" },
+    { "id": 6, "name": "7up", "type": "beverage" },
+    { "id": 7, "name": "Miranda", "type": "beverage" },
+    { "id": 8, "name": "Cadbury", "type": "chocolate" },
+    { "id": 9, "name": "Perk", "type": "chocolate" },
+    { "id": 10, "name": "Now", "type": "chocolate" }
+  ],
+  "deals": [
+    { "id": 1, "name": "Combo 1" },
+    { "id": 2, "name": "Combo 2" },
+    { "id": 3, "name": "Combo 3" },
+    { "id": 4, "name": "Combo 4" },
+    { "id": 5, "name": "Combo 5" }
+  ],
+  "productDealsMapping": [
+    { "id": 1, "productId": 1, "dealId": 1 },
+    { "id": 2, "productId": 2, "dealId": 2 },
+    { "id": 3, "productId": 2, "dealId": 5 },
+    { "id": 4, "productId": 3, "dealId": 3 },
+    { "id": 5, "productId": 4, "dealId": 4 },
+    { "id": 6, "productId": 5, "dealId": 1 },
+    { "id": 7, "productId": 5, "dealId": 3 },
+    { "id": 8, "productId": 5, "dealId": 5 },
+    { "id": 9, "productId": 6, "dealId": 2 },
+    { "id": 10, "productId": 7, "dealId": 4 },
+    { "id": 11, "productId": 8, "dealId": 1 },
+    { "id": 12, "productId": 8, "dealId": 4 },
+    { "id": 13, "productId": 9, "dealId": 2 },
+    { "id": 14, "productId": 9, "dealId": 5 },
+    { "id": 15, "productId": 10, "dealId": 3 }
+  ]
+}

@@ -1,0 +1,29 @@
+The task is to create a set of components below to render and interact according to the rules given below.
+
+A online grocery store is giving combo deals to their users. A combo is made up of 3 items, a packet of chips, a drink and a chocolate. These three items are fixed in each combo e.g.
+
+Lays Salted, Pepsi, Cadbury
+Slims, 7Up, Perk
+Potatoe Sticks, Pepsi, Now
+Slanty, Miranda, Cadbury
+Slims, Pepsi, Perk
+
+The store wants to create a view, where the user can pick a combo, by choosing one thing at a time. First the user sees the *unique* list of all the chips - from which he can choose any one. On choosing, it will render the list of drinks, and when we choose the drink it will list the chocolates. The important thing to note here is that once I have chosen say Slims, I can only see options which match my Slims choice i.e. Pepsi and 7up. Once the selection is complete, the complete combo (all three selected items) should get rendered, with an option to change the combo (which will go back to the first list).
+
+Deliverables:
+* React components to render all the three lists
+* Ability to choose from each list individually as described above
+* Render the selected combos
+* See unique items in each list
+* Ability to choose any item first, so I can choose the chocolate first and then drink.
+* Bonus: Unit tests
+
+Rules:
+* You should use the latest React version
+* The data for the combos should be fetched as a static json from an external resource
+* You should implement these components using Redux
+* Styling is not important, just having the basic structure is sufficient. You may use any library.
+* Please ensure your code has run through properly linting tools
+* Use Typescript
+
+[See attachment Assessment2.png]

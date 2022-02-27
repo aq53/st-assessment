@@ -4,9 +4,9 @@
     { "id": 2, "name": "Slims", "type": "chips" },
     { "id": 3, "name": "Potatoe Sticks", "type": "chips" },
     { "id": 4, "name": "Slanty", "type": "chips" },
-    { "id": 5, "name": "Pepsi", "type": "beverage" },
-    { "id": 6, "name": "7up", "type": "beverage" },
-    { "id": 7, "name": "Miranda", "type": "beverage" },
+    { "id": 5, "name": "Pepsi", "type": "drink" },
+    { "id": 6, "name": "7up", "type": "drink" },
+    { "id": 7, "name": "Miranda", "type": "drink" },
     { "id": 8, "name": "Cadbury", "type": "chocolate" },
     { "id": 9, "name": "Perk", "type": "chocolate" },
     { "id": 10, "name": "Now", "type": "chocolate" }

@@ -31,6 +31,19 @@
   width: 80%;
   margin: 20px auto;
 }
+.footer {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+}
+.selected {
+  background-color: #aac9e52b;
+}
+.ant-list-items li {
+  display: flex;
+  cursor: pointer;
+  justify-content: space-between;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

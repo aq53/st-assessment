@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Card, Tabs } from 'antd';
+import React, {
+  useCallback, useEffect, useMemo, useState
+} from 'react';
+import { Card, Tabs, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import List from '../../components/List';
 import { RootState } from '../../store';
-import {
-  fetchAllChips, fetchBeverages, fetchChocolates, fetchActiveDeal
-} from '../../slices';
+
 import { IProduct } from '../../common/interfaces';
 import { PRODUCT_TYPES } from '../../common/enums/productTypes';
+import { fetchAllProducts, fetchFilteredProducts } from '../../slices';
 
 const { TabPane } = Tabs;
 const tabs = [{
@@ -15,34 +16,26 @@ const tabs = [{
   id: 1,
   productType: PRODUCT_TYPES.CHIPS
 }, {
-  title: 'Beverages',
+  title: 'Drinks',
   id: 2,
-  productType: PRODUCT_TYPES.BEVERAGE
+  productType: PRODUCT_TYPES.DRINK
 }, {
   title: 'Chocolates',
   id: 3,
   productType: PRODUCT_TYPES.CHOCOLATE
 }];
-interface ICombo{
-  chips:IProduct,
-  beverage:IProduct,
-  chocolate:IProduct
-}
 function Home() {
-  const chips:IProduct[] = useSelector((state: RootState) => state.products.chips);
-  const beverages:IProduct[] = useSelector((state: RootState) => state.products.beverages);
-  const chocolates:IProduct[] = useSelector((state: RootState) => state.products.chocolates);
-  const activeDeals:Array<number> = useSelector((state: RootState) => state.products.activeDeals);
-  const [combo, setCombo] = useState<ICombo>({
-    chips: { id: 0, name: '', type: '' },
-    beverage: { id: 0, name: '', type: '' },
-    chocolate: { id: 0, name: '', type: '' }
-  });
+  const products:IProduct[] = useSelector((state: RootState) => state.products);
+  const [combo, setCombo] = useState<IProduct[]>([]);
   const [activeTab, setActiveTab] = useState(1);
   const dispatch = useDispatch();
 
+  const filterProducts = (productType:PRODUCT_TYPES) => products.filter(
+    (item) => item.type === productType
+  );
+
   useEffect(() => {
-    dispatch(fetchAllChips());
+    dispatch(fetchAllProducts());
   }, []);
 
   const changeTab = (key?:string) => {
@@ -53,35 +46,23 @@ function Home() {
     }
   };
 
-  const updateCombo = (key:PRODUCT_TYPES, product:IProduct) => {
-    setCombo((_prevState) => ({ ..._prevState, [key]: product }));
+  const isProductSelected = useCallback((id:number) => {
+    const prodObj = combo.find((item) => item.id === id);
+    return Boolean(prodObj);
+  }, [combo]);
+
+  const updateCombo = (product:IProduct) => {
+    if (isProductSelected(product.id)) {
+      return;
+    }
+    setCombo((_prevState) => ([..._prevState, product]));
     changeTab();
   };
-
-  const fetchData = (productType:PRODUCT_TYPES) => {
-    switch (productType) {
-      case PRODUCT_TYPES.CHIPS:
-        return chips;
-      case PRODUCT_TYPES.BEVERAGE:
-        return beverages;
-      case PRODUCT_TYPES.CHOCOLATE:
-        return chocolates;
-      default:
-        return [];
+  useEffect(() => {
+    if (combo.length) {
+      dispatch(fetchFilteredProducts(combo));
     }
-  };
-
-  useEffect(() => {
-    dispatch(fetchBeverages({ chipsId: combo.chips.id }));
-  }, [combo.chips]);
-
-  useEffect(() => {
-    dispatch(fetchChocolates({ chipsId: combo.chips.id, beverageId: combo.beverage.id }));
-  }, [combo.beverage]);
-
-  useEffect(() => {
-    dispatch(fetchActiveDeal({ chocolateId: combo.chocolate.id }));
-  }, [combo.chocolate]);
+  }, [combo]);
   return (
     <div className="container">
       <Tabs defaultActiveKey="1" activeKey={activeTab.toString()} onChange={changeTab} className="content">
@@ -89,9 +70,9 @@ function Home() {
                 tabs.map((item) => (
                   <TabPane tab={item.title} key={item.id}>
                     <List
-                      productType={item.productType}
+                      isProductSelected={isProductSelected}
                       onSelectCombo={updateCombo}
-                      data={fetchData(item.productType)}
+                      data={useMemo(() => filterProducts(item.productType), [products])}
                       title={item.title}
                     />
                   </TabPane>
@@ -99,24 +80,39 @@ function Home() {
             }
       </Tabs>
       {
-        combo.chips.id && combo.beverage.id && combo.chocolate.id ? (
-          <Card title={activeDeals[0]}>
-            <p>
-              Chips:
-              {' '}
-              <b>{combo.chips.name}</b>
-            </p>
-            <p>
-              Drink:
-              {' '}
-              <b>{combo.beverage.name}</b>
-            </p>
-            <p>
-              Chocolate:
-              {' '}
-              <b>{combo.chocolate.name}</b>
-            </p>
-          </Card>
+        combo.length === 3 ? (
+          <>
+            <Card title="Combo">
+              <p>
+                Chips:
+                {' '}
+                <b>{combo.find((item) => item.type === PRODUCT_TYPES.CHIPS)?.name}</b>
+              </p>
+              <p>
+                Drink:
+                {' '}
+                <b>{combo.find((item) => item.type === PRODUCT_TYPES.DRINK)?.name}</b>
+              </p>
+              <p>
+                Chocolate:
+                {' '}
+                <b>{combo.find((item) => item.type === PRODUCT_TYPES.CHOCOLATE)?.name}</b>
+              </p>
+            </Card>
+            <div className="footer">
+              <Button
+                type="primary"
+                onClick={() => {
+                  changeTab('1');
+                  setCombo([]);
+                  dispatch(fetchAllProducts());
+                }}
+              >
+                Modify
+
+              </Button>
+            </div>
+          </>
         ) : null
       }
     </div>

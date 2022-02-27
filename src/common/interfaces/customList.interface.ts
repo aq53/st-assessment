@@ -1,9 +1,8 @@
-import { PRODUCT_TYPES } from '../enums/productTypes';
 import { IProduct } from './products.interface';
 
 export interface ICustomList {
+  isProductSelected: (id: number) => boolean;
   data: IProduct[];
   title: string;
-  productType: PRODUCT_TYPES;
-  onSelectCombo: (key: PRODUCT_TYPES, product: IProduct) => void;
+  onSelectCombo: (product: IProduct) => void;
 }
